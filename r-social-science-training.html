@@ -1,0 +1,1845 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Social Science Data Analysis in R - Session</title>
+    <style>
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            line-height: 1.6;
+            color: #333;
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 20px;
+        }
+        h1, h2, h3, h4 {
+            color: #2c3e50;
+            margin-top: 1.5em;
+        }
+        h1 {
+            border-bottom: 2px solid #3498db;
+            padding-bottom: 10px;
+        }
+        h2 {
+            border-bottom: 1px solid #bdc3c7;
+            padding-bottom: 5px;
+        }
+        pre, code {
+            background-color: #f5f5f5;
+            border-radius: 3px;
+            font-family: 'Courier New', Courier, monospace;
+            padding: 2px 4px;
+        }
+        pre {
+            padding: 10px;
+            overflow-x: auto;
+        }
+        .note {
+            background-color: #e7f2fa;
+            border-left: 4px solid #3498db;
+            padding: 15px;
+            margin: 20px 0;
+        }
+        .warning {
+            background-color: #fdebd0;
+            border-left: 4px solid #f39c12;
+            padding: 15px;
+            margin: 20px 0;
+        }
+        table {
+            border-collapse: collapse;
+            width: 100%;
+            margin: 20px 0;
+        }
+        th, td {
+            text-align: left;
+            padding: 12px;
+            border-bottom: 1px solid #ddd;
+        }
+        th {
+            background-color: #f2f2f2;
+        }
+        tr:hover {
+            background-color: #f5f5f5;
+        }
+        .image-placeholder {
+            background-color: #eee;
+            border: 1px dashed #aaa;
+            padding: 20px;
+            text-align: center;
+            margin: 20px 0;
+            color: #666;
+        }
+        footer {
+            margin-top: 40px;
+            padding-top: 20px;
+            border-top: 1px solid #eee;
+            font-size: 0.9em;
+            color: #666;
+        }
+        .tabbed-content {
+            border: 1px solid #ccc;
+            border-radius: 5px;
+            margin: 20px 0;
+        }
+        .tab-headers {
+            display: flex;
+            background-color: #f5f5f5;
+            border-bottom: 1px solid #ccc;
+        }
+        .tab-header {
+            padding: 10px 15px;
+            cursor: pointer;
+        }
+        .tab-header.active {
+            background-color: white;
+            border-bottom: 2px solid #3498db;
+        }
+        .tab-content {
+            padding: 15px;
+            display: none;
+        }
+        .tab-content.active {
+            display: block;
+        }
+        .intro-points {
+        background-color: #f8f9fa;
+        border-left: 4px solid #3498db;
+        padding: 15px 15px 15px 25px;
+        margin: 20px 0;
+        }
+
+        .intro-points li {
+            margin-bottom: 8px;
+            line-height: 1.5;
+        }
+
+        .intro-points code {
+            background-color: #f0f0f0;
+            padding: 2px 4px;
+            border-radius: 3px;
+            font-family: Consolas, Monaco, 'Courier New', monospace;
+        }
+        .slide-title {
+        color: #FF7800; /* Vibrant orange color */
+        font-weight: bold;
+        border-left: 4px solid #FF7800;
+        padding-left: 12px;
+        margin-top: 1.5em;
+        margin-bottom: 0.8em;
+        background-color: #FFF8F0; /* Very light orange background */
+        padding: 8px 12px;
+        border-radius: 3px;
+        }
+        .r-basics {
+        background-color: #f8f9fa;
+        border-radius: 5px;
+        padding: 15px;
+        margin: 15px 0;
+        }
+
+    .r-basics ul {
+        margin-bottom: 12px;
+        }
+
+    .r-basics li {
+        margin-bottom: 8px;
+        line-height: 1.5;
+        }
+
+    .code-block {
+        background-color: #f5f5f5;
+        border-left: 4px solid #3498db;
+        border-radius: 3px;
+        padding: 12px;
+        margin: 15px 0;
+        font-family: Consolas, Monaco, 'Courier New', monospace;
+        line-height: 1.5;
+        overflow-x: auto;
+        }
+    </style>
+</head>
+<body>
+    <header>
+        <h1>Social Science Data Analysis in R – Training Package</h1>
+        <p>Prepared by: <a href="https://www.linkedin.com/in/sandun-dassanayake/" target="_blank">Dr Sandun Dassanayake</a></p>
+    </header>
+
+    <section>
+        <h2>Training Overview</h2>
+        <p>This 3-hour training is designed for academic staff in the social sciences to get familiar with the data analysis techniques using R and RStudio. It uses example datasets of student evaluations and survey responses (with Likert-scale and categorical variables) to practice core data analysis skills. The training is organized into five modules, each with an instructor guide and accompanying presentation slides:</p>
+        <ul>
+            <li><strong>Module 1:</strong> Introduction to R and RStudio (basic syntax and using packages)</li>
+            <li><strong>Module 2:</strong> Data import (CSV/Excel), data cleaning (handling NAs, filtering) and preparation (using mutate(), recode(), converting types)</li>
+            <li><strong>Module 3:</strong> Descriptive statistics (frequency tables, cross-tabulations, summary stats for Likert-scale data)</li>
+            <li><strong>Module 4:</strong> Inferential tests (independent two-sample t-test, paired t-test, one-way ANOVA) with examples</li>
+            <li><strong>Module 5:</strong> Introduction to regression analysis and data visualization with ggplot2 (bar charts, histograms, boxplots, scatter plots)</li>
+        </ul>
+        <p>Throughout the training, we use RStudio for hands-on practice, emphasizing reproducible scripts in the Source pane rather than only using the Console. Participants will follow along with provided dummy datasets and code examples in RStudio.</p>
+    </section>
+
+    <section>
+        <h2>Dummy Datasets</h2>
+        <p>Two dummy datasets (in both CSV and Excel formats) are provided for practice. These represent fictitious student evaluation and survey data, with Likert-scale responses and categorical demographics:</p>
+        
+        <h3><a href="https://mega.nz/file/rV0XEbQQ#K5abQt6ljamPUV4QRjZ3U7iiAAK4gLUGQJOtq4H_6Bk" target="_blank">StudentEvaluations.csv</a> </h3>
+        <p>Simulated course evaluation responses from 30 students. Each row is a student's responses about a course. Columns include:</p>
+        <ul>
+            <li><code>StudentID</code>: Unique ID for each student (1–30)</li>
+            <li><code>Gender</code>: Student gender ("M" or "F"; later recoded to "Male"/"Female")</li>
+            <li><code>Course</code>: Course identifier (e.g. "CourseA", "CourseB", "CourseC")</li>
+            <li><code>Q1 – Q5</code>: Likert-scale ratings (1–5) for five evaluation questions (1 = Strongly Disagree, 5 = Strongly Agree)</li>
+            <li><code>Overall</code>: Overall satisfaction rating (1–5)</li>
+            <li><code>StudyHours</code>: Numeric value of hours studied per week (e.g. 8, 10, 12 hours, etc.)</li>
+            <li><code>PreScore</code>: Score on a pre-course knowledge quiz (percentage 0–100)</li>
+            <li><code>PostScore</code>: Score on a post-course knowledge quiz (0–100)</li>
+        </ul>
+
+        <h3><a href="https://mega.nz/file/KY9GGbiJ#3Ddi3oaqOcN-4Ojzq6NB_rGN3PdZB4QwqhKExA3999Y" target="_blank">StudentSurvey.xlsx</a> </h3>
+        <p>Simulated survey of 20 students about their academic experience. Columns include:</p>
+        <ul>
+            <li><code>StudentID</code>: Student ID</li>
+            <li><code>Year</code>: Year of study (1, 2, 3, or 4)</li>
+            <li><code>Satisfaction</code>: Likert-scale (1–5) rating of overall academic experience</li>
+            <li><code>Recommend</code>: Likert-scale (1–5) rating of likelihood to recommend their program</li>
+            <li><code>StudyHours</code>: Hours studied per week (numeric)</li>
+        </ul>
+
+        <p>Both datasets contain examples of Likert-scale data (which will be treated as ordinal categorical data) and other variables for analysis. Minor missing values (NAs) are introduced in each dataset for training purposes (e.g. a couple of Q# or Satisfaction entries are left blank) to practice handling missing data.</p>
+    </section>
+
+    <section id="module1">
+        <h2>Module 1: Introduction to R and RStudio</h2>
+        
+        <h3>Objectives</h3>
+        <p>Familiarize participants with the R environment and RStudio interface, and introduce basic R syntax and package usage. By the end of this module, participants should be able to navigate RStudio's panes, execute simple R commands, create variables, and load an R package.</p>
+        
+        <div class="tabbed-content">
+            <div class="tab-headers">
+                <div class="tab-header" onclick="showTab('slides-1', this)">Installing R & RStudio</div>
+                <div class="tab-header" onclick="showTab('slides-1a', this)">RStudio Interface Overview</div>
+                <div class="tab-header" onclick="showTab('slides-1b', this)">Basic R Syntax</div>
+                <div class="tab-header" onclick="showTab('slides-1c', this)">Slide 5: Variables and Types</div>
+                <div class="tab-header" onclick="showTab('slides-1d', this)">Slide 6: Installing and Loading Packages</div>
+            </div>
+            
+            <div id="slides-1" class="tab-content">
+                <h4 class="slide-title">Installing R & RStudio</h4>
+                <p><strong>Downloading R:</strong> To begin, visit the official R project website at <a href="https://cran.r-project.org/" target="_blank">CRAN (The Comprehensive R Archive Network)</a>. Select the download link for your operating system (Windows, macOS, or Linux). For Windows users, click "Download R for Windows" then "base" and download the latest version. For macOS users, select "Download R for macOS" and choose the appropriate .pkg file for your macOS version. Follow the standard installation prompts, accepting the default options unless you have specific requirements.</p>
+
+                <p><strong>Downloading RStudio:</strong> After installing R, visit the <a href="https://posit.co/download/rstudio-desktop/" target="_blank">RStudio Desktop download page</a>. The website should automatically detect your operating system and recommend the appropriate installer. If not, scroll down to select your operating system manually. Download the free RStudio Desktop version. Remember that RStudio is an interface for R and requires R to be installed first—it won't work properly without R.</p>
+
+                <p><strong>Installation tips:</strong> When installing both programs, use administrative privileges if required by your system. For Windows users, installation is straightforward with standard "Next" button clicks. Mac users will drag the application to the Applications folder after opening the downloaded file. Linux users may need to use command-line installation depending on their distribution. After installation, open RStudio (not R directly) to begin working—RStudio will automatically connect to your R installation and provide the integrated environment for your data analysis projects.</p>
+                <ul class="intro-points">
+                    <li><strong>What is R?</strong> R is a programming language specifically designed for statistical computing and data analysis.</li>
+                    <li><strong>What is RStudio?</strong> RStudio is a user-friendly Integrated Development Environment (IDE) that makes working with R more efficient and intuitive.</li>
+                    <li><strong>Relevance to social science:</strong> R is widely used in social science research for statistical analysis and data visualization. R is free and open-source, has a large community, many packages for statistics (e.g. survey analysis, social science data), and it enables reproducible research (script-based workflow).</li>
+                    <li><strong>Key advantages:</strong> Researchers prefer R due to its flexibility, extensive statistical capabilities, and powerful packages for specialized analyses.</li>
+                    <li><strong>Important to note:</strong> R is case-sensitive (e.g., <code>Variable</code> and <code>variable</code> are treated as different objects).</li>
+                    <li><strong>Getting started:</strong> Commands in R are typed and executed in the Console pane, with results displayed immediately below each command.</li>
+                </ul> 
+            </div>
+            <div id="slides-1a" class="tab-content">
+                <h4 class="slide-title">RStudio Interface Overview</h4>
+                <p> RStudio panes (Source, Console, Environment, Plots/Help).</p>
+
+                <div class="image-placeholder">
+                    <img src = "images/RstudioScreen.png" alt = "Rstudio Interface" class = "slide-image" width = "100%"/>
+                </div>
+
+                <p>Key point: we write and save code in scripts (Source) and observe results in the Console and output panes.</p>
+            </div>
+            <div id="slides-1b" class="tab-content">
+                <h4 class="slide-title">Basic R Syntax</h4>
+                <div class="r-basics">
+                    <ul>
+                        <li><strong>R as a calculator:</strong> R can perform basic arithmetic operations directly in the console.</li>
+                        <li><strong>Examples:</strong>
+                            <ul>
+                                <li><code>5 + 3</code> for addition (returns <code>8</code>)</li>
+                                <li><code>10 - 4</code> for subtraction (returns <code>6</code>)</li>
+                                <li><code>6 * 7</code> for multiplication (returns <code>42</code>)</li>
+                                <li><code>9 / 3</code> for division (returns <code>3</code>)</li>
+                                <li><code>2^3</code> for powers (returns <code>8</code>)</li>
+                                <li><code>sqrt(16)</code> for square root (returns <code>4</code>)</li>
+                            </ul>
+                        </li>
+                    
+                    <li><strong>Variable assignment:</strong> Use the assignment operator <code>&lt;-</code> to store values in variables.</li>
+                    </ul>
+                
+                    <pre class="code-block"><code>  
+                        x &lt;- 5          # Assign the value 5 to variable x
+                        y &lt;- 2 * x      # y becomes 10 (using x in a calculation)
+                        x + y           # adds up to 15</code></pre>
+                
+                    <ul>
+                        <li><strong>After assignment:</strong> Variables appear in the Environment pane in RStudio</li>
+                        <li><strong>Variable naming rules:</strong>
+                            <ul>
+                                <li>Cannot start with a number (e.g., <code>2data</code> is invalid, but <code>data2</code> is valid)</li>
+                                <li>Can contain letters, numbers, dots, and underscores</li>
+                                <li>Is case-sensitive (<code>Score</code> and <code>score</code> are different variables)</li>
+                                <li>Cannot use reserved words like <code>if</code>, <code>else</code>, <code>function</code>, etc.</li>
+                            </ul>
+                        </li>
+                    </ul>
+                </div>
+            </div>
+
+            <div id="slides-1c" class="tab-content">
+                <h4 class="slide-title">Slide 5: Variables and Types</h4>
+
+                <div class="r-basics">
+                    <h5>Basic R Data Types:</h5>
+                    <ul>
+                        <li><strong>Numeric</strong>: Numbers (integers or decimals)</li>
+                        <li><strong>Character</strong>: Text strings</li>
+                        <li><strong>Logical</strong>: Boolean values (TRUE/FALSE)</li>
+                        <li><strong>Factor</strong>: Categorical variables with levels</li>
+                    </ul>
+
+                    <h5>Common R Data Structures:</h5>
+                    <ul>
+                        <li><strong>Vector</strong>: One-dimensional collection of elements (same type)</li>
+                        <li><strong>Data Frame</strong>: Table-like structure (columns can be different types)</li>
+                        <li><strong>List</strong>: Flexible container for different types/structures</li>
+                        <li><strong>Matrix</strong>: Two-dimensional array (same type)</li>
+                    </ul>
+
+                    <div>
+                    
+                    <h5>Quick Examples:</h5>
+                    <pre class="code-block"><code>
+                    # Character string
+                    name <- "Alice"     # Stored as text
+
+                    # Numeric vector
+                    scores <- c(4, 3, 5)  # Collection of numbers
+
+                    # Logical value
+                    passed <- TRUE      # Boolean value</code></pre>
+                            </div>
+                    </div>
+            </div>
+
+            <div id="slides-1d" class="tab-content">
+                <h4 class="slide-title">Slide 6: Installing and Loading Packages</h4>
+
+                <div class="r-basics">
+                    <h5>Installing Packages:</h5>
+                    <ul>
+                        <li>Use <code>install.packages("package_name")</code> to download and install</li>
+                        <li>Only needed <strong>once</strong> per R installation</li>
+                        <li>Requires internet connection</li>
+                        <li>Alternative: Use RStudio's Tools → Install Packages... menu</li>
+                    </ul>
+                
+                    <h5>Loading Packages:</h5>
+                    <ul>
+                        <li>Use <code>library(package_name)</code> to make functions available</li>
+                        <li>Required in <strong>every new R session</strong> where you need the package</li>
+                        <li>Packages must be installed before they can be loaded</li>
+                        <li>Alternative: Check boxes in the Packages pane</li>
+                    </ul>
+                
+                    <div>
+                    <h5>Quick Examples:</h5>
+                    <pre class="code-block"><code>
+                    # Install the tidyverse package (only once)
+                    install.packages("tidyverse")  # Collection of data science packages
+                    
+                    # Load the tidyverse for use in current session
+                    library(tidyverse)            # Makes dplyr, ggplot2, etc. available
+                    
+                    # Check loaded packages
+                    search()                      # Shows packages in the search path</code></pre>
+                    </div>
+                    
+                    <h5>RStudio Packages Pane:</h5>
+                    <ul>
+                        <li>Located in bottom-right panel (Packages tab)</li>
+                        <li>Checked box = package is currently loaded</li>
+                        <li>Click package name to view documentation</li>
+                        <li>Use "Install" button for new packages</li>
+                        <li>Use the ?functionName syntax to pull up documentation. e.g. Type ?mean to see how the mean function works. Also try help and online resources (like RStudio cheat sheets or community forums) when stuck</li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <section id="module2">
+        <h2>Module 2: Data Import, Cleaning, and Preparation</h2>
+        
+        <h3>Objectives</h3>
+        <p>Teach participants how to read data into R from CSV and Excel files, and perform basic data cleaning and preparation. By the end, they should be able to import the provided datasets, handle missing values, filter rows, create or transform columns with mutate(), and recode values.</p>
+
+        <div class="tabbed-content">
+            <div class="tab-headers">
+                <div class="tab-header" onclick="showTab('slides-2', this)">Data Import</div>
+                <div class="tab-header" onclick="showTab('slides-3', this)">Handling Missing Data</div>
+                <div class="tab-header" onclick="showTab('slides-4', this)">Filtering Rows (Subsetting)</div>
+                <div class="tab-header" onclick="showTab('slides-5', this)">Mutating and Recoding</div>
+                <div class="tab-header" onclick="showTab('slides-6', this)">Data Type Conversions</div>
+                <div class="tab-header" onclick="showTab('slides-7', this)">Cleaned Data Ready</div>
+            </div>
+            
+            
+            <div id="slides-2" class="tab-content">
+                
+                <h4 class="slide-title">Data Import, Cleaning, and Preparation</h4>
+
+                <div class="r-basics">
+                    
+                    <h5>Learning Objectives:</h5>
+                    <ul>
+                        <li>Reading data from files (CSV, Excel)</li>
+                        <li>Handling missing data</li>
+                        <li>Filtering data subsets</li>
+                        <li>Creating new variables</li>
+                        <li>Recoding values</li>
+                    </ul>
+                    
+                    <h5>Dataset:</h5>
+                    <p>We'll work with <code>StudentEvaluations.csv</code> containing course feedback and performance data</p>
+                </div>
+
+
+                <div class="r-basics">
+                    <h5>Reading Data Files:</h5>
+                    <ul>
+                        <li><strong>CSV files</strong>: Use base R function</li>
+                        <li><strong>Excel files</strong>: Use readxl package</li>
+                    </ul>
+                
+                    <div>
+                    <h5>Code Examples:</h5>
+                    <pre class="code-block"><code>
+                    # Import CSV file (base R)
+                    eval_data <- read.csv("StudentEvaluations.csv")
+                    
+                    # Import Excel file (requires readxl package)
+                    library(readxl)
+                    eval_data <- read_excel("StudentEvaluations.xlsx")
+                    # Note: read_excel handles both .xls and .xlsx formats</code></pre>
+                    </div>
+                    
+                    <div class="note-box">
+                        <p><strong>Note:</strong> After import, data is stored as a data frame in R</p>
+                    </div>
+                </div>
+
+                <div class="r-basics">
+                    <h5>Initial Data Exploration:</h5>
+                    <ul>
+                        <li><code>head()</code>: View first few rows</li>
+                        <li><code>str()</code>: Examine structure and data types</li>
+                        <li><code>summary()</code>: Get statistical summaries</li>
+                    </ul>
+                
+                    <div>
+                    <h5>Examples with StudentEvaluations dataset:</h5>
+                    <pre class="code-block"><code>
+                    # View first 6 rows
+                    head(eval_data)
+                    
+                    # Examine data structure
+                    str(eval_data)
+                    
+                    # Get summary statistics
+                    summary(eval_data)</code></pre>
+                    </div>
+                    
+                    <div class="output-example">
+                        <h5>Example Summary Output:</h5>
+                        <pre><code>   StudentID      Gender       Course         Q1             Q2       
+                 Min.   : 1.0   M   :16   CourseA:10   Min.   :1.00   Min.   :1.00  
+                 1st Qu.: 8.0   F   :14   CourseB:10   1st Qu.:3.00   1st Qu.:3.00  
+                 Median :15.5             CourseC:10   Median :4.00   Median :3.50  
+                 Mean   :15.5                          Mean   :3.73   Mean   :3.57  
+                 3rd Qu.:23.0                          3rd Qu.:4.25   3rd Qu.:4.00  
+                 Max.   :30.0                          Max.   :5.00   Max.   :5.00  
+                                                       NA's   :1</code></pre>
+                    </div>
+                </div>
+
+            </div>
+
+            <div id="slides-3" class="tab-content">
+
+                <h4 class="slide-title">Slide 4: Handling Missing Data</h4>
+
+                <div class="r-basics">
+                    <h5>Identifying Missing Values:</h5>
+                    <ul>
+                        <li>Use <code>is.na()</code> to find missing values</li>
+                        <li>Count missing values with <code>sum(is.na(column))</code></li>
+                        <li>Check across all columns: <code>colSums(is.na(data))</code></li>
+                    </ul>
+
+                    <div>
+                    <h5>Example Code:</h5>
+                    <pre class="code-block"><code>
+                    # Check which values in Q1 are missing
+                    is.na(eval_data$Q1)
+                    
+                    # Count missing values in Q1
+                    sum(is.na(eval_data$Q1))
+                    
+                    # Count missing values in all columns
+                    colSums(is.na(eval_data))</code></pre>
+                    </div>
+                    
+                    <h5>Handling Strategies:</h5>
+                    <ul>
+                        <li><strong>Remove</strong> missing values with <code>na.omit(data)</code></li>
+                        <li><strong>Filter</strong> specific rows: <code>filter(eval_data, !is.na(Q1))</code></li>
+                        <li><strong>Impute</strong> (replace) with means or other values</li>
+                    </ul>
+                    
+                    <div class="warning-note">
+                        <p>⚠️ Caution: Removing too many missing values can bias your analysis</p>
+                    </div>
+                </div>
+            </div>
+
+            <div id="slides-4" class="tab-content">
+                <h4 class="slide-title">Slide 5: Filtering Rows (Subsetting)</h4>
+
+                <div class="r-basics">
+                    <h5>Using dplyr's filter() function:</h5>
+                    <ul>
+                        <li>Select rows that meet specified conditions</li>
+                        <li>Use logical operators: <code>==</code>, <code>!=</code>, <code>&gt;</code>, <code>&lt;</code>, <code>&amp;</code> (AND), <code>|</code> (OR)</li>
+                        <li>Enables answering specific data questions</li>
+                    </ul>
+
+                    <div>
+                    <h5>Examples:</h5>
+                    <pre class="code-block"><code>
+                    # Load dplyr (part of tidyverse)
+                    library(dplyr)
+                    
+                    # Filter for female students only
+                    female_data <- filter(eval_data, Gender == "F")
+                    
+                    # Filter for CourseA students with high overall ratings
+                    high_ratings <- filter(eval_data, 
+                                        Course == "CourseA" & Overall >= 4)
+                                        
+                    # Students who studied more than 10 hours OR scored above 90
+                    dedicated <- filter(eval_data, 
+                                    StudyHours > 10 | PostScore > 90)</code></pre>
+                    </div>
+                    
+                    <div class="note-box">
+                        <p>This allows us to focus analysis on specific subgroups of interest</p>
+                    </div>
+                </div>    
+
+            </div>
+            
+            
+            <div id="slides-5" class="tab-content">
+                <h4 class="slide-title">Slide 6: Mutating and Recoding</h4>
+
+                <div class="r-basics">
+                    <h5>Creating/Modifying Columns with mutate():</h5>
+                    <ul>
+                        <li>Add new calculated variables</li>
+                        <li>Transform existing variables</li>
+                        <li>Create multiple columns at once</li>
+                    </ul>
+
+                    <div>
+                    <h5>Examples:</h5>
+                    <pre class="code-block"><code>
+                    # Calculate average rating across all questions
+                    eval_data <- mutate(eval_data, 
+                                    AvgRating = (Q1 + Q2 + Q3 + Q4 + Q5) / 5)
+                    
+                    # Calculate knowledge gain
+                    eval_data <- mutate(eval_data,
+                                    ScoreGain = PostScore - PreScore)
+                                    
+                    # Create multiple columns at once
+                    eval_data <- mutate(eval_data,
+                                    PassedCourse = PostScore >= 60,
+                                    GradeImprovement = ScoreGain > 10)</code></pre>
+                    </div>
+                    
+                    <h5>Recoding Values:</h5>
+                    <div>
+                    <pre class="code-block"><code>
+                    # Recode Gender from single letters to full words
+                    eval_data <- mutate(eval_data,
+                                    Gender = recode(Gender, 
+                                                    "M" = "Male", 
+                                                    "F" = "Female"))
+                    
+                    # Alternative using case_when() for complex recoding
+                    eval_data <- mutate(eval_data,
+                                    PerformanceLevel = case_when(
+                                        PostScore >= 90 ~ "Excellent",
+                                        PostScore >= 75 ~ "Good",
+                                        PostScore >= 60 ~ "Satisfactory",
+                                        TRUE           ~ "Needs Improvement"
+                                    ))</code></pre>
+                    </div>
+                </div>   
+
+            </div>
+
+            <div id="slides-6" class="tab-content">
+                <h4 class="slide-title">Slide 7: Data Type Conversions</h4>
+
+                <div class="r-basics">
+                    <h5>Converting Data Types:</h5>
+                    <ul>
+                        <li><code>as.numeric()</code>: Convert to numbers</li>
+                        <li><code>as.character()</code>: Convert to text strings</li>
+                        <li><code>as.factor()</code>: Convert to categorical variables</li>
+                        <li><code>as.Date()</code>: Convert to date format</li>
+                    </ul>
+
+                    <div>
+                    <h5>Examples with StudentEvaluations:</h5>
+                    <pre class="code-block"><code>
+                    # Ensure Course is treated as a factor (categorical)
+                    eval_data$Course <- as.factor(eval_data$Course)
+                    
+                    # If StudyHours was imported as character, convert to numeric
+                    eval_data$StudyHours <- as.numeric(eval_data$StudyHours)
+                    
+                    # Check the structure after conversion
+                    str(eval_data)</code></pre>
+                    </div>
+                    
+                    <div class="note-box">
+                        <h5>Why Data Types Matter:</h5>
+                        <ul>
+                            <li><strong>Factors</strong>: Proper handling in statistical tests and plots</li>
+                            <li><strong>Numeric</strong>: Required for calculations and statistics</li>
+                            <li><strong>Character</strong>: Text manipulation and display</li>
+                        </ul>
+                    </div>
+                </div>
+
+            </div>
+
+            <div id="slides-7" class="tab-content">
+                <h4 class="slide-title">Slide 8: Cleaned Data Ready</h4>
+
+                <div class="r-basics">
+                    <h5>Summary of Data Preparation Steps:</h5>
+                    <ol>
+                        <li>Imported data from CSV/Excel files</li>
+                        <li>Inspected and understood data structure</li>
+                        <li>Handled missing values appropriately</li>
+                        <li>Filtered rows to create relevant subsets</li>
+                        <li>Created new variables (AvgRating, ScoreGain)</li>
+                        <li>Recoded values (Gender, PerformanceLevel)</li>
+                        <li>Ensured correct data types</li>
+                    </ol>
+
+                    <div class="final-view">
+                        <h5>Our Cleaned Dataset Now Includes:</h5>
+                        <ul>
+                            <li>Original variables: StudentID, Gender (recoded), Course, Q1-Q5, Overall, StudyHours, PreScore, PostScore</li>
+                            <li>New variables: AvgRating, ScoreGain, PerformanceLevel, etc.</li>
+                            <li>Proper data types for analysis</li>
+                            <li>No missing values in critical columns</li>
+                        </ul>
+                    </div>
+                    
+                    <div class="next-steps">
+                        <p><strong>Next:</strong> We're ready to move on to data analysis and visualization!</p>
+                    </div>
+                </div>
+
+            </div>
+
+            
+        </div>
+    </section>
+
+    <section id="module3">
+        <h2>Module 3: Descriptive Statistics for Survey Data</h2>
+        
+        <h3>Objectives</h3>
+        <p>Teach participants to compute and interpret descriptive statistics for categorical and Likert-scale data. They will generate frequency tables, cross-tabulations, and summary statistics (mean, median, etc.) for the student evaluation data. The concept of treating Likert-scale data (ordinal) carefully will be introduced.</p>
+
+        <div class="tabbed-content">
+            <div class="tab-headers">
+                <div class="tab-header" onclick="showTab('Role-of-descriptive-stat', this)">Role of Descriptive Statistics</div>
+                <div class="tab-header" onclick="showTab('Frequency-tables', this)">Frequency Tables (One-Way)</div>
+                <div class="tab-header" onclick="showTab('Bar-plots', this)">Bar Plots of Frequencies</div>
+                <div class="tab-header" onclick="showTab('Cross-tabulation', this)">Cross-Tabulations (Two-Way Tables)</div>
+                <div class="tab-header" onclick="showTab('Summaries-likert', this)">Summaries for Likert-Scale Data</div>
+                <div class="tab-header" onclick="showTab('Grouped-DS', this)">Grouped Descriptive Statistics</div>
+                <div class="tab-header" onclick="showTab('Likert-Scale-Considerations', this)">Likert Scale Considerations</div>
+                <div class="tab-header" onclick="showTab('Analyzing-survey', this)">Analyzing Survey Data</div>
+            </div>
+
+            <div id="Role-of-descriptive-stat" class="tab-content">
+                <h4 class="slide-title">Role of Descriptive Statistics</h4>
+                
+                <div class="r-basics">
+                    <h5>Why Descriptive Statistics?</h5>
+                    <ul>
+                        <li>Help us "get a feel" for the data before formal analysis</li>
+                        <li>Understand data distribution and key characteristics</li>
+                        <li>Essential first step in any statistical analysis</li>
+                    </ul>
+                    
+                    <h5>Common Descriptive Statistics in Social Science:</h5>
+                    <ul>
+                        <li><strong>Frequencies</strong>: How many students selected each Likert option</li>
+                        <li><strong>Percentages</strong>: Proportion of responses in each category</li>
+                        <li><strong>Central Tendency</strong>: Mean, median, mode</li>
+                        <li><strong>Dispersion</strong>: Range, variance, standard deviation</li>
+                    </ul>
+                    
+                    <div class="note-box">
+                        <p>Always start your analysis by examining descriptive statistics!</p>
+                    </div>
+                </div>
+            </div>
+
+            <div id="Frequency-tables" class="tab-content">
+                <h4 class="slide-title">Frequency Tables (One-Way)</h4>
+                
+                <div class="r-basics">
+                    <h5>Creating Frequency Tables:</h5>
+                    <ul>
+                        <li>Count occurrences of each value in a variable</li>
+                        <li>Fundamental for understanding categorical data</li>
+                        <li>Shows distribution of responses (e.g., Likert ratings)</li>
+                    </ul>
+            
+                    <div>
+                    <h5>Code Examples:</h5>
+                    <pre class="code-block"><code>
+                    # Base R frequency table
+                    table(eval_data$Overall)
+                    
+                    # Output might look like:
+                    # 1  2  3  4  5 
+                    # 2  5  8  9  6
+                    
+                    # Convert to percentages
+                    prop.table(table(eval_data$Overall)) * 100
+                    
+                    # Using dplyr
+                    library(dplyr)
+                    eval_data %>% count(Overall)</code></pre>
+                    </div>
+                    
+                    <div class="interpretation">
+                        <h5>Interpretation:</h5>
+                        <p>In this example, most students gave a rating of 4 ("Agree"), indicating generally positive feedback. Only 2 students gave the lowest rating.</p>
+                    </div>
+                </div>
+            </div>
+
+            <div id="Bar-plots" class="tab-content">
+                <h4 class="slide-title">Bar Plots of Frequencies</h4>
+                
+                <div class="r-basics">
+                    <h5>Visualizing Frequency Distributions:</h5>
+                    <ul>
+                        <li>Bar plots provide visual representation of frequency tables</li>
+                        <li>Helpful for quickly identifying patterns and dominant categories</li>
+                        <li>Can be created using base R or ggplot2</li>
+                    </ul>
+            
+                    <div>
+                    <h5>Code Examples:</h5>
+                    <pre class="code-block"><code>
+                    # Base R bar plot
+                    barplot(table(eval_data$Overall),
+                            main="Distribution of Overall Satisfaction",
+                            xlab="Rating (1-5)",
+                            ylab="Number of Students",
+                            col="skyblue")
+                    
+                    # ggplot2 alternative
+                    library(ggplot2)
+                    ggplot(eval_data, aes(x=factor(Overall))) +
+                      geom_bar(fill="skyblue") +
+                      labs(title="Distribution of Overall Satisfaction",
+                           x="Rating (1-5)",
+                           y="Number of Students") +
+                      theme_minimal()</code></pre>
+                    </div>
+                    
+                    <div class="note-box">
+                        <p>We'll explore more visualization techniques in Module 5</p>
+                    </div>
+                </div>
+            </div>
+
+            <div id="Cross-tabulation" class="tab-content">
+                <h4 class="slide-title">Cross-Tabulations (Two-Way Tables)</h4>
+                
+                <div class="r-basics">
+                    <h5>Examining Relationships Between Categorical Variables:</h5>
+                    <ul>
+                        <li>Cross-tabulations show counts for combinations of two variables</li>
+                        <li>Helps identify patterns and potential associations</li>
+                        <li>Foundation for chi-square and other categorical tests</li>
+                    </ul>
+            
+                    <div>
+                    <h5>Code Examples:</h5>
+                    <pre class="code-block"><code>
+                    # Gender vs Overall satisfaction
+                    table(eval_data$Gender, eval_data$Overall)
+                    
+                    # Course vs Gender enrollment
+                    table(eval_data$Course, eval_data$Gender)
+                    
+                    # Include totals with addmargins()
+                    addmargins(table(eval_data$Gender, eval_data$Overall))</code></pre>
+                    </div>
+                    
+                    <div class="output-example">
+                        <h5>Example Output (Gender vs Overall):</h5>
+                        <pre><code>      Overall
+                    Gender  1  2  3  4  5
+                    Female  1  2  4  5  3
+                    Male    1  3  4  4  3</code></pre>
+                    </div>
+                    
+                    <div class="interpretation">
+                        <h5>How to Read This Table:</h5>
+                        <ul>
+                            <li>Rows represent gender categories</li>
+                            <li>Columns represent rating values (1-5)</li>
+                            <li>Each cell shows count for that combination</li>
+                            <li>Example: 5 female students gave a rating of 4</li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+
+            <div id="Summaries-likert" class="tab-content">
+                <h4 class="slide-title">Summaries for Likert-Scale Data</h4>
+                
+                <div class="r-basics">
+                    <h5>Central Tendency Measures:</h5>
+                    <ul>
+                        <li><strong>Mean</strong>: Average rating (assumes interval properties)</li>
+                        <li><strong>Median</strong>: Middle value (more appropriate for ordinal data)</li>
+                        <li><strong>Mode</strong>: Most common response (also appropriate for ordinal)</li>
+                    </ul>
+            
+                    <div>
+                    <h5>Code Examples:</h5>
+                    <pre class="code-block"><code>
+                    # Calculate mean of Overall satisfaction
+                    mean(eval_data$Overall)
+                    
+                    # Calculate median
+                    median(eval_data$Overall)
+                    
+                    # Comprehensive summary
+                    summary(eval_data$Overall)
+                    
+                    # Summary of all evaluation questions at once
+                    summary(eval_data[, c("Q1","Q2","Q3","Q4","Q5","Overall")])</code></pre>
+                    </div>
+                    
+                    <h5>Measures of Dispersion:</h5>
+                    <div>
+                    <pre class="code-block"><code>
+                    # Standard deviation
+                    sd(eval_data$Overall)
+                    
+                    # Variance
+                    var(eval_data$Overall)
+                    
+                    # Range (min to max)
+                    range(eval_data$Overall)</code></pre>
+                    </div>
+                    
+                    <div class="note-box">
+                        <p>While means are commonly used with Likert data, remember that medians are technically more appropriate for ordinal data</p>
+                    </div>
+                </div>
+            </div>
+            
+            <div id="Grouped-DS" class="tab-content">
+                <h4 class="slide-title">Grouped Descriptive Statistics</h4>
+                
+                <div class="r-basics">
+                    <h5>Comparing Groups:</h5>
+                    <ul>
+                        <li>Calculate statistics separated by categories</li>
+                        <li>Compare means, medians, etc. across different groups</li>
+                        <li>Foundation for comparative analysis (t-tests, ANOVA)</li>
+                    </ul>
+            
+                    <div>
+                    <h5>Using dplyr for Group Comparisons:</h5>
+                    <pre class="code-block"><code>
+                    library(dplyr)
+                    
+                    # Compare Overall ratings by Course
+                    eval_data %>% 
+                      group_by(Course) %>%
+                      summarize(mean_overall = mean(Overall, na.rm=TRUE),
+                                median_overall = median(Overall),
+                                sd_overall = sd(Overall))
+                    
+                    # Compare ratings by Gender
+                    eval_data %>% 
+                      group_by(Gender) %>%
+                      summarize(mean_overall = mean(Overall),
+                                sd_overall = sd(Overall))
+                                
+                    # Multiple statistics for multiple questions
+                    eval_data %>%
+                      group_by(Course) %>%
+                      summarize(across(c(Q1, Q2, Q3, Q4, Q5), 
+                                      list(mean = mean, sd = sd)))</code></pre>
+                    </div>
+                    
+                    <div class="output-example">
+                        <h5>Example Output (by Course):</h5>
+                        <pre><code>  Course    mean_overall median_overall sd_overall
+              <chr>            <dbl>          <dbl>      <dbl>
+            1 CourseA           4.1              4      0.876
+            2 CourseB           3.6              4      1.07 
+            3 CourseC           3.9              4      0.738</code></pre>
+                    </div>
+                    
+                    <div class="interpretation">
+                        <p>In this example, CourseB has a slightly lower mean satisfaction than CourseA/C, which might indicate areas for improvement.</p>
+                    </div>
+                </div>
+            </div>
+
+            <div id="Likert-Scale-Considerations" class="tab-content">
+                <h4 class="slide-title">Likert Scale Considerations</h4>
+                
+                <div class="r-basics">
+                    <h5>Important Methodological Notes:</h5>
+                    <ul>
+                        <li>Individual Likert items are technically <strong>ordinal</strong> data</li>
+                        <li>Strictly speaking, ordinal data should use median or mode, not mean</li>
+                        <li>Aggregated scales (multiple items) are often treated as interval data</li>
+                        <li>Social science convention often uses means despite statistical debate</li>
+                    </ul>
+            
+                    <div class="best-practices">
+                        <h5>Best Practices:</h5>
+                        <ul>
+                            <li>Create composite variables when appropriate (e.g., mean of Q1-Q5)</li>
+                            <li>Check internal consistency (e.g., Cronbach's alpha) for multi-item scales</li>
+                            <li>Consider both parametric and non-parametric approaches</li>
+                            <li>Be transparent about analytical choices in reporting</li>
+                        </ul>
+                    </div>
+                    
+                    <div>
+                    <h5>Creating Composite Scores:</h5>
+                    <pre class="code-block"><code>
+                    # Create a mean satisfaction score from Q1-Q5
+                    eval_data <- mutate(eval_data,
+                                       MeanSatisfaction = (Q1 + Q2 + Q3 + Q4 + Q5) / 5)
+                    
+                    # Analyze the composite score
+                    summary(eval_data$MeanSatisfaction)
+                    hist(eval_data$MeanSatisfaction)</code></pre>
+                    </div>
+                </div>
+            </div>
+
+            <div id="Analyzing-survey" class="tab-content">
+                <h4 class="slide-title">Analyzing Survey Data</h4>
+                
+                <div class="r-basics">
+                    <h5>Applied Examples:</h5>
+                    <ul>
+                        <li>Analyze additional survey data (if available)</li>
+                        <li>Apply the same descriptive techniques to different variables</li>
+                        <li>Look for patterns across different datasets</li>
+                    </ul>
+            
+                    <div>
+                    <h5>Example Analysis:</h5>
+                    <pre class="code-block"><code>
+                    # Frequency of Satisfaction ratings
+                    table(survey_data$Satisfaction)
+                    
+                    # Cross-tabulation: Year of Study vs Recommendation
+                    table(survey_data$Year, survey_data$Recommend)
+                    
+                    # Visualize the relationship
+                    mosaicplot(table(survey_data$Year, survey_data$Recommend),
+                              main="Program Recommendations by Year",
+                              color=TRUE)</code></pre>
+                    </div>
+                    
+                    <div class="discussion-questions">
+                        <h5>Discussion Questions:</h5>
+                        <ul>
+                            <li>"Which is more appropriate for describing a skewed distribution – mean or median?"</li>
+                            <li>"How would you summarize the overall feedback of students in our dataset?"</li>
+                            <li>"Looking at the by-course averages, do you suspect any real difference, or could it be randomness?"</li>
+                            <li>"How might we formally test differences between groups?"</li>
+                        </ul>
+                        <p class="note">These questions lead into Module 4 on inferential statistics</p>
+                    </div>
+                </div>
+            </div>
+
+        </div>
+    </section>
+
+    <section id="module4">
+        <h2>Module 4: Inferential Statistical Tests (t-tests and ANOVA)</h2>
+        
+        <h3>Objectives</h3>
+        <p>Introduce basic inferential statistics (comparison of means) in R: the independent two-sample t-test, paired t-test, and one-way ANOVA. Use examples from the student evaluation data to demonstrate each test, interpreting outputs in context (e.g., do male vs female students differ in satisfaction? Did scores improve from pre to post? Does satisfaction differ by course?).</p>
+
+        <div class="note">
+            <p><strong>Important:</strong> Emphasize assumptions (normality, equal variance) informally and the ordinal Likert issue (we will proceed as if means are meaningful, but note this is an approximation). The goal is to teach how to run these tests in R and interpret them.</p>
+        </div>
+
+        <div class="tabbed-content">
+            <div class="tab-headers">
+                <div class="tab-header" onclick="showTab('slides-infStat-1', this)">Introduction to Hypothesis Testing</div>
+                <div class="tab-header" onclick="showTab('slides-infStat-2', this)">Independent Two-Sample t-test</div>
+                <div class="tab-header" onclick="showTab('slides-infStat-3', this)">Paired t-test</div>
+                <div class="tab-header" onclick="showTab('slides-infStat-4', this)">One-Way ANOVA</div>
+                <div class="tab-header" onclick="showTab('slides-infStat-5', this)">Interpretation and Reporting</div>
+                <div class="tab-header" onclick="showTab('slides-infStat-6', this)">Other Statistical Tests</div>
+                <div class="tab-header" onclick="showTab('slides-infStat-7', this)">Assumptions and Data Considerations</div>
+            </div>
+            
+            <div id="slides-infStat-1" class="tab-content">
+                <h4 class="slide-title">Introduction to Hypothesis Testing</h4>
+                
+                <div class="r-basics">
+                    <h5>What is Hypothesis Testing?</h5>
+                    <ul>
+                        <li>Statistical method to determine if observed differences or relationships are significant</li>
+                        <li>Helps distinguish between real effects and random chance</li>
+                        <li>Common in social science research to validate findings</li>
+                    </ul>
+                    
+                    <h5>Key Concepts:</h5>
+                    <ul>
+                        <li><strong>Null Hypothesis (H0)</strong>: No effect/difference exists (what we test against)</li>
+                        <li><strong>Alternative Hypothesis (H1)</strong>: An effect/difference does exist</li>
+                        <li><strong>p-value</strong>: Probability of observing our results if H0 were true</li>
+                        <li><strong>Significance level</strong>: Threshold for rejecting H0 (typically 0.05)</li>
+                    </ul>
+                    
+                    <h5>Common Tests We'll Cover:</h5>
+                    <ul>
+                        <li><strong>Independent t-test</strong>: Compare means of two independent groups</li>
+                        <li><strong>Paired t-test</strong>: Compare means of two related measurements</li>
+                        <li><strong>One-way ANOVA</strong>: Compare means across three or more groups</li>
+                    </ul>
+                    
+                    <div class="note-box">
+                        <p>Hypothesis testing helps us make evidence-based conclusions rather than relying on observed differences alone</p>
+                    </div>
+                </div>
+            </div>
+
+            <div id="slides-infStat-2" class="tab-content">
+                <h4 class="slide-title">Independent Two-Sample t-test</h4>
+                
+                <div class="r-basics">
+                    <h5>Purpose:</h5>
+                    <ul>
+                        <li>Compare means between two independent groups</li>
+                        <li>Examples: male vs. female, treatment vs. control</li>
+                        <li>Tests if group difference is statistically significant</li>
+                    </ul>
+            
+                    <h5>Hypotheses:</h5>
+                    <ul>
+                        <li><strong>H0</strong>: No difference in means between groups (μ₁ = μ₂)</li>
+                        <li><strong>H1</strong>: There is a difference in means between groups (μ₁ ≠ μ₂)</li>
+                    </ul>
+            
+                    <div>
+                    <h5>Example: Comparing Overall Satisfaction by Gender</h5>
+                    <pre class="code-block"><code>
+                    # Independent t-test using formula notation
+                    t.test(Overall ~ Gender, data = eval_data)
+                    
+                    # If you want to assume equal variances (classic Student's t-test)
+                    t.test(Overall ~ Gender, data = eval_data, var.equal = TRUE)
+                    
+                    # Alternative format with vectors
+                    t.test(eval_data$Overall[eval_data$Gender == "Female"],
+                           eval_data$Overall[eval_data$Gender == "Male"])</code></pre>
+                    </div>
+                    
+                    <div class="output-example">
+                        <h5>Sample Output:</h5>
+                        <pre><code>Welch Two Sample t-test
+            
+            data:  Overall by Gender
+            t = 0.57, df = 27.8, p-value = 0.57
+            alternative hypothesis: true difference in means is not equal to 0
+            95 percent confidence interval:
+             -0.5  0.9
+            sample estimates:
+            mean in group Female   mean in group Male 
+                          3.67                 3.53</code></pre>
+                    </div>
+                    
+                    <div class="interpretation">
+                        <h5>Interpretation:</h5>
+                        <ul>
+                            <li>p-value = 0.57 > 0.05, so we fail to reject H0</li>
+                            <li>No statistically significant difference in mean satisfaction between genders</li>
+                            <li>The difference observed (3.67 vs 3.53) could be due to chance</li>
+                            <li>Report: "There was no significant gender difference in satisfaction (M<sub>female</sub>=3.67, M<sub>male</sub>=3.53, t(28)=0.57, p=0.57)"</li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+
+            <div id="slides-infStat-3" class="tab-content">
+                <h4 class="slide-title">Paired t-test</h4>
+                
+                <div class="r-basics">
+                    <h5>Purpose:</h5>
+                    <ul>
+                        <li>Compare means between two related measurements</li>
+                        <li>Examples: pre-test vs. post-test, before vs. after intervention</li>
+                        <li>Tests if the average difference is statistically significant</li>
+                    </ul>
+            
+                    <h5>Hypotheses:</h5>
+                    <ul>
+                        <li><strong>H0</strong>: No mean difference between paired measurements (μ<sub>diff</sub> = 0)</li>
+                        <li><strong>H1</strong>: There is a mean difference between paired measurements (μ<sub>diff</sub> ≠ 0)</li>
+                    </ul>
+            
+                    <div>
+                    <h5>Example: Testing Pre/Post Knowledge Scores</h5>
+                    <pre class="code-block"><code>
+                    # Paired t-test
+                    t.test(eval_data$PostScore, eval_data$PreScore, paired = TRUE)
+                    
+                    # Alternative: first calculate differences, then test if mean differs from 0
+                    eval_data$ScoreChange <- eval_data$PostScore - eval_data$PreScore
+                    t.test(eval_data$ScoreChange, mu = 0)</code></pre>
+                    </div>
+                    
+                    <div class="output-example">
+                        <h5>Sample Output:</h5>
+                        <pre><code>Paired t-test
+            
+            data:  eval_data$PostScore and eval_data$PreScore
+            t = 5.4, df = 29, p-value = 0.00001
+            alternative hypothesis: true mean difference is not equal to 0
+            95 percent confidence interval:
+              8.0 15.0
+            sample estimates:
+            mean of the differences 
+                             11.5</code></pre>
+                    </div>
+                    
+                    <div class="interpretation">
+                        <h5>Interpretation:</h5>
+                        <ul>
+                            <li>p-value = 0.00001 < 0.05, so we reject H0</li>
+                            <li>Students scored significantly higher after the course</li>
+                            <li>Mean improvement: 11.5 points (95% CI: 8.0 to 15.0)</li>
+                            <li>Report: "Students scored significantly higher after the course (M<sub>pre</sub>=60, M<sub>post</sub>=71.5, t(29)=5.4, p<0.001), indicating a substantial knowledge gain."</li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+
+            <div id="slides-infStat-4" class="tab-content">
+                <h4 class="slide-title">One-Way ANOVA</h4>
+                
+                <div class="r-basics">
+                    <h5>Purpose:</h5>
+                    <ul>
+                        <li>Compare means across three or more groups</li>
+                        <li>Examples: comparing courses A, B, C or different treatment conditions</li>
+                        <li>Extension of t-test for more than two groups</li>
+                    </ul>
+            
+                    <h5>Hypotheses:</h5>
+                    <ul>
+                        <li><strong>H0</strong>: All group means are equal (μ₁ = μ₂ = μ₃ = ...)</li>
+                        <li><strong>H1</strong>: At least one group mean differs from the others</li>
+                    </ul>
+            
+                    <div>
+                    <h5>Example: Comparing Satisfaction Across Courses</h5>
+                    <pre class="code-block"><code>
+                    # One-way ANOVA
+                    result <- aov(Overall ~ Course, data = eval_data)
+                    summary(result)
+                    
+                    # If ANOVA is significant, follow with post-hoc tests
+                    # to determine which specific groups differ
+                    TukeyHSD(result)</code></pre>
+                    </div>
+                    
+                    <div class="output-example">
+                        <h5>Sample Output:</h5>
+                        <pre><code>            Df Sum Sq Mean Sq F value Pr(>F)
+            Course       2   3.50    1.75    0.9   0.418
+            Residuals   27  52.50    1.94</code></pre>
+                    </div>
+                    
+                    <div class="interpretation">
+                        <h5>Interpretation:</h5>
+                        <ul>
+                            <li>p-value = 0.418 > 0.05, so we fail to reject H0</li>
+                            <li>No statistically significant difference in mean satisfaction among the three courses</li>
+                            <li>The observed differences in course means could be due to chance</li>
+                            <li>Report: "Mean satisfaction did not differ significantly by course (F(2,27)=0.9, p=0.42)."</li>
+                            <li>Since ANOVA is not significant, post-hoc tests are not necessary</li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+
+            <div id="slides-infStat-5" class="tab-content">
+                <h4 class="slide-title">Interpretation and Reporting</h4>
+                
+                <div class="r-basics">
+                    <h5>Effective Results Reporting:</h5>
+                    <ul>
+                        <li>Always connect statistical results to research context</li>
+                        <li>Include test statistics, degrees of freedom, and p-values</li>
+                        <li>Report effect sizes when possible (e.g., Cohen's d)</li>
+                        <li>Follow discipline-specific reporting standards (e.g., APA)</li>
+                    </ul>
+            
+                    <div class="reporting-examples">
+                        <h5>Example Statements:</h5>
+                        <ul>
+                            <li><strong>Independent t-test:</strong> "There was no significant gender difference in satisfaction (M<sub>female</sub>=3.67 vs M<sub>male</sub>=3.53, t(28)=0.57, p=0.57)."</li>
+                            <li><strong>Paired t-test:</strong> "Students scored significantly higher after the course (M<sub>pre</sub>=60, M<sub>post</sub>=71.5, t(29)=5.4, p<0.001), indicating a substantial knowledge gain."</li>
+                            <li><strong>ANOVA:</strong> "Mean satisfaction did not differ significantly by course (F(2,27)=0.9, p=0.42)."</li>
+                        </ul>
+                    </div>
+                    
+                    <h5>Interpreting p-values:</h5>
+                    <ul>
+                        <li>p < 0.05: Statistically significant result (reject H0)</li>
+                        <li>p ≥ 0.05: Not statistically significant (fail to reject H0)</li>
+                        <li>Avoid language like "proved" or "disproved" - statistical evidence supports or fails to support hypotheses</li>
+                    </ul>
+                    
+                    <div class="note-box">
+                        <p>Statistical significance ≠ practical importance. Consider effect sizes and context when interpreting results.</p>
+                    </div>
+                </div>
+            </div>
+
+            <div id="slides-infStat-6" class="tab-content">
+                <h4 class="slide-title">Other Statistical Tests</h4>
+                
+                <div class="r-basics">
+                    <h5>Additional Tests You May Encounter:</h5>
+                    <ul>
+                        <li><strong>One-sample t-test</strong>: Compare a sample mean to a known value</li>
+                        <li><strong>Chi-square test</strong>: Analyze relationships between categorical variables</li>
+                        <li><strong>Non-parametric alternatives</strong>: When data violates assumptions of parametric tests</li>
+                    </ul>
+            
+                    <div>
+                    <h5>Non-parametric Alternatives:</h5>
+                    <pre class="code-block"><code>
+                    # Mann-Whitney U test (alternative to independent t-test)
+                    wilcox.test(Overall ~ Gender, data = eval_data)
+                    
+                    # Wilcoxon signed-rank test (alternative to paired t-test)
+                    wilcox.test(eval_data$PostScore, eval_data$PreScore, paired = TRUE)
+                    
+                    # Kruskal-Wallis test (alternative to one-way ANOVA)
+                    kruskal.test(Overall ~ Course, data = eval_data)</code></pre>
+                    </div>
+                    
+                    <h5>When to Use Non-parametric Tests:</h5>
+                    <ul>
+                        <li>Data is ordinal (e.g., Likert scales)</li>
+                        <li>Data violates normality assumption</li>
+                        <li>Small sample sizes</li>
+                        <li>Presence of outliers that cannot be removed</li>
+                    </ul>
+                    
+                    <div class="note-box">
+                        <p>Non-parametric tests are more conservative but make fewer assumptions about data distribution</p>
+                    </div>
+                </div>
+            </div>
+
+            <div id="slides-infStat-7" class="tab-content">
+                <h4 class="slide-title">Assumptions and Data Considerations</h4>
+                
+                <div class="r-basics">
+                    <h5>Key Assumptions for Parametric Tests:</h5>
+                    <ul>
+                        <li><strong>Normality</strong>: Data follows normal distribution within groups</li>
+                        <li><strong>Homogeneity of variance</strong>: Similar variances across groups</li>
+                        <li><strong>Independence</strong>: Observations are independent (except paired tests)</li>
+                        <li><strong>Interval/ratio data</strong>: Measurements on a continuous scale</li>
+                    </ul>
+            
+                    <div>
+                    <h5>Checking Assumptions:</h5>
+                    <pre class="code-block"><code>
+                    # Check normality with histogram
+                    hist(eval_data$Overall[eval_data$Gender == "Female"])
+                    
+                    # Formal normality test (Shapiro-Wilk)
+                    shapiro.test(eval_data$Overall[eval_data$Gender == "Female"])
+                    
+                    # Check equal variances
+                    var.test(Overall ~ Gender, data = eval_data)</code></pre>
+                    </div>
+                    
+                    <h5>Likert Scale Considerations:</h5>
+                    <ul>
+                        <li>Single Likert items are ordinal, not interval data</li>
+                        <li>Strictly speaking, non-parametric tests may be more appropriate</li>
+                        <li>Common practice: Use parametric tests when:
+                            <ul>
+                                <li>Multiple Likert items are combined into a scale</li>
+                                <li>Sample sizes are reasonably large</li>
+                                <li>Data approximates normal distribution</li>
+                            </ul>
+                        </li>
+                    </ul>
+                    
+                    <div class="test-selection">
+                        <h5>Selecting the Right Test:</h5>
+                        <ul>
+                            <li><strong>Independent t-test</strong>: Two separate groups (e.g., male vs. female)</li>
+                            <li><strong>Paired t-test</strong>: Two measurements on same subjects (e.g., pre/post)</li>
+                            <li><strong>ANOVA</strong>: Three or more groups to compare</li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+
+        </div>
+    </section>
+
+    <section id="module5">
+        <h2>Module 5: Regression Analysis and Data Visualization with ggplot2</h2>
+        
+        <h3>Objectives</h3>
+        <p>Introduce linear regression basics and create common data visualizations using ggplot2. Participants will learn how to fit a simple regression model (e.g., predicting post-test score from study hours) and how to produce bar charts, histograms, boxplots, and scatter plots in RStudio. This module consolidates earlier lessons (e.g., differences between groups can be seen in boxplots, relationships in scatter plots, etc.) and shows the power of visualization in data analysis.</p>
+
+        <div class="tabbed-content">
+            <div class="tab-headers">
+                <div class="tab-header" onclick="showTab('Reg-DataVis-1', this)">Introduction to Regression</div>
+                <div class="tab-header" onclick="showTab('Reg-DataVis-2', this)">Fitting a Linear Model in R</div>
+                <div class="tab-header" onclick="showTab('Reg-DataVis-3', this)">Multiple Regression</div>
+                <div class="tab-header" onclick="showTab('Reg-DataVis-4', this)">Introduction to ggplot2</div>
+                <div class="tab-header" onclick="showTab('Reg-DataVis-5', this)">Bar Chart - Likert Scale Frequencies</div>
+                <div class="tab-header" onclick="showTab('Reg-DataVis-6', this)">Histogram - Numeric Distribution</div>
+                <div class="tab-header" onclick="showTab('Reg-DataVis-7', this)">Boxplot - Distribution by Group</div>
+                <div class="tab-header" onclick="showTab('Reg-DataVis-8', this)">Scatter Plot - Relationships Between Variables</div>
+                <div class="tab-header" onclick="showTab('Reg-DataVis-9', this)">Customizing and Saving Plots</div>
+            </div>
+
+            <div id="Reg-DataVis-1" class="tab-content">
+                <h4 class="slide-title">Introduction to Regression</h4>
+                
+                <div class="r-basics">
+                    <h5>What is Regression Analysis?</h5>
+                    <ul>
+                        <li>Statistical method for modeling relationships between variables</li>
+                        <li>Helps understand how changes in predictors relate to changes in outcomes</li>
+                        <li>Can be used for prediction or understanding associations</li>
+                        <li>Common in social sciences for analyzing relationships between variables</li>
+                    </ul>
+                    
+                    <h5>Simple Linear Regression:</h5>
+                    <ul>
+                        <li>Models relationship between one predictor (X) and one outcome (Y)</li>
+                        <li>Finds the "line of best fit" through data points</li>
+                        <li>Equation form: Y = β₀ + β₁X + ε</li>
+                        <li>β₀ = intercept (Y value when X = 0)</li>
+                        <li>β₁ = slope (change in Y for one unit change in X)</li>
+                        <li>ε = error term (accounts for unexplained variation)</li>
+                    </ul>
+                    
+                    <h5>Example Scenario:</h5>
+                    <p>Does study time predict exam performance?</p>
+                    <ul>
+                        <li>Outcome (Y): Post-course score (PostScore)</li>
+                        <li>Predictor (X): Study hours per week (StudyHours)</li>
+                        <li>Model: PostScore = β₀ + β₁ × StudyHours + ε</li>
+                    </ul>
+                </div>
+            </div>
+
+            <div id="Reg-DataVis-2" class="tab-content">
+                <h4 class="slide-title">Fitting a Linear Model in R</h4>
+                
+                <div class="r-basics">
+                    <h5>Creating a Simple Linear Regression:</h5>
+                    <ul>
+                        <li>Use <code>lm()</code> function in R (linear model)</li>
+                        <li>Formula notation: outcome ~ predictor</li>
+                        <li><code>summary()</code> provides detailed results</li>
+                    </ul>
+            
+                    <div>
+                    <h5>Code Example:</h5>
+                    <pre class="code-block"><code>
+                    # Fit linear regression model
+                    model <- lm(PostScore ~ StudyHours, data = eval_data)
+                    
+                    # View detailed results
+                    summary(model)</code></pre>
+                    </div>
+                    
+                    <div class="output-example">
+                        <h5>Sample Output:</h5>
+                        <pre><code>Coefficients:
+                             Estimate Std. Error t value Pr(>|t|)    
+            (Intercept)    50.00      5.00    10.0   2e-11 ***
+            StudyHours      2.00      0.45     4.44  0.0001 ***
+            ---
+            Signif. codes:  0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1
+            
+            Residual standard error: 8 on 28 degrees of freedom
+            Multiple R-squared: 0.413,  Adjusted R-squared: 0.392 
+            F-statistic: 19.7 on 1 and 28 DF,  p-value: 0.0001</code></pre>
+                    </div>
+                    
+                    <div class="interpretation">
+                        <h5>Interpreting the Results:</h5>
+                        <ul>
+                            <li><strong>Intercept (β₀) = 50.0</strong>: Predicted score for a student who studies 0 hours</li>
+                            <li><strong>Slope (β₁) = 2.0</strong>: Each additional study hour predicts a 2-point increase in exam score</li>
+                            <li><strong>p-value for StudyHours = 0.0001</strong>: Study time is a statistically significant predictor</li>
+                            <li><strong>R-squared = 0.413</strong>: About 41% of variation in scores is explained by study hours</li>
+                            <li><strong>F-statistic p-value = 0.0001</strong>: Overall model is statistically significant</li>
+                        </ul>
+                        <p>In plain language: "Each extra hour of weekly study is associated with a 2-point increase in exam score. This relationship is statistically significant and explains about 41% of the variation in scores."</p>
+                    </div>
+                </div>
+            </div>
+
+            <div id="Reg-DataVis-3" class="tab-content">
+                <h4 class="slide-title">Multiple Regression</h4>
+                
+                <div class="r-basics">
+                    <h5>Adding More Predictors:</h5>
+                    <ul>
+                        <li>Extends simple regression to include multiple predictors</li>
+                        <li>Formula: Y = β₀ + β₁X₁ + β₂X₂ + ... + βₚXₚ + ε</li>
+                        <li>Can control for confounding variables</li>
+                        <li>Potentially increases explanatory power (R²)</li>
+                    </ul>
+            
+                    <div>
+                    <h5>Example Code:</h5>
+                    <pre class="code-block"><code>
+                    # Multiple regression with two predictors
+                    model2 <- lm(PostScore ~ StudyHours + PreScore, data = eval_data)
+                    
+                    # View results
+                    summary(model2)
+                    
+                    # Compare models
+                    anova(model, model2)</code></pre>
+                    </div>
+                    
+                    <h5>Interpretation Changes:</h5>
+                    <ul>
+                        <li>Each coefficient represents the effect of that variable <strong>while holding other variables constant</strong></li>
+                        <li>Example: "For each additional hour studied, scores increase by X points <em>on average, controlling for pre-test performance</em>"</li>
+                        <li>R² typically increases with additional predictors (adjusted R² accounts for this)</li>
+                    </ul>
+                    
+                    <div class="note-box">
+                        <p>Multiple regression allows for more comprehensive models but requires careful interpretation of coefficients</p>
+                    </div>
+                </div>
+            </div>
+            
+            <div id="Reg-DataVis-4" class="tab-content">
+                <h4 class="slide-title">Introduction to ggplot2</h4>
+                
+                <div class="r-basics">
+                    <h5>Why Data Visualization?</h5>
+                    <ul>
+                        <li>Complements statistical analysis</li>
+                        <li>Reveals patterns not obvious in raw numbers</li>
+                        <li>Communicates findings effectively</li>
+                        <li>Helps identify outliers and unusual patterns</li>
+                    </ul>
+                    
+                    <h5>The ggplot2 Package:</h5>
+                    <ul>
+                        <li>Powerful R package based on the "Grammar of Graphics"</li>
+                        <li>Creates high-quality, customizable visualizations</li>
+                        <li>Uses a layered approach to building plots</li>
+                        <li>Widely used in data science and academic research</li>
+                    </ul>
+            
+                    <div>
+                    <h5>Basic ggplot2 Structure:</h5>
+                    <pre class="code-block"><code>
+                    # Install and load ggplot2 (part of tidyverse)
+                    # install.packages("ggplot2")
+                    library(ggplot2)
+                    
+                    # Basic structure
+                    ggplot(data = dataset, aes(x = variable1, y = variable2)) +
+                      geom_xxx() +  # Plot type (e.g., point, bar, line)
+                      labs(title = "Plot Title", x = "X-axis Label", y = "Y-axis Label")</code></pre>
+                    </div>
+                    
+                    <h5>Main Components:</h5>
+                    <ul>
+                        <li><strong>data</strong>: The dataset to visualize</li>
+                        <li><strong>aes()</strong>: Aesthetic mappings (variables to visual properties)</li>
+                        <li><strong>geom_xxx()</strong>: Geometric objects (plot type)</li>
+                        <li><strong>labs()</strong>: Labels and titles</li>
+                        <li><strong>theme()</strong>: Visual styling and appearance</li>
+                    </ul>
+                </div>
+            </div>
+
+            <div id="Reg-DataVis-5" class="tab-content">
+                <h4 class="slide-title">Bar Chart - Likert Scale Frequencies</h4>
+                
+                <div class="r-basics">
+                    <h5>Purpose:</h5>
+                    <ul>
+                        <li>Visualize frequency distribution of categorical variables</li>
+                        <li>Perfect for Likert scale responses (1-5 ratings)</li>
+                        <li>Shows counts or proportions for each category</li>
+                    </ul>
+            
+                    <div>
+                    <h5>Code Example:</h5>
+                    <pre class="code-block"><code>
+                    # Create a bar chart of Overall ratings
+                    ggplot(eval_data, aes(x = factor(Overall))) +
+                      geom_bar(fill = "skyblue") +
+                      labs(x = "Overall Rating", y = "Count", 
+                           title = "Distribution of Overall Satisfaction")
+                           
+                    # Add percentages instead of counts
+                    ggplot(eval_data, aes(x = factor(Overall))) +
+                      geom_bar(aes(y = ..prop.., group = 1), fill = "skyblue") +
+                      scale_y_continuous(labels = scales::percent) +
+                      labs(x = "Overall Rating", y = "Percentage", 
+                           title = "Distribution of Overall Satisfaction")</code></pre>
+                    </div>
+                    
+                    <h5>Key Features:</h5>
+                    <ul>
+                        <li><strong>factor(Overall)</strong>: Treats numeric ratings as categories</li>
+                        <li><strong>geom_bar()</strong>: Creates bars with height proportional to count</li>
+                        <li><strong>fill = "skyblue"</strong>: Sets bar color</li>
+                        <li><strong>labs()</strong>: Adds descriptive labels</li>
+                    </ul>
+                    
+                    <div class="interpretation">
+                        <p>Bar charts visually highlight the most common responses and allow easy comparison of frequencies. In our example, we might see that rating "4" is most common, with few students giving the lowest rating of "1".</p>
+                    </div>
+                </div>
+            </div>
+
+            <div id="Reg-DataVis-6" class="tab-content">
+                <h4 class="slide-title">Histogram - Numeric Distribution</h4>
+                
+                <div class="r-basics">
+                    <h5>Purpose:</h5>
+                    <ul>
+                        <li>Visualize distribution of continuous numeric variables</li>
+                        <li>Shows frequency of values within specified bins</li>
+                        <li>Reveals shape of distribution (normal, skewed, bimodal, etc.)</li>
+                    </ul>
+            
+                    <div>
+                    <h5>Code Example:</h5>
+                    <pre class="code-block"><code>
+                    # Create a histogram of study hours
+                    ggplot(eval_data, aes(x = StudyHours)) +
+                      geom_histogram(binwidth = 2, color = "black", fill = "orange") +
+                      labs(x = "Study Hours per Week", y = "Number of Students", 
+                           title = "Histogram of Study Hours")
+                           
+                    # Add density curve overlay
+                    ggplot(eval_data, aes(x = StudyHours)) +
+                      geom_histogram(aes(y = ..density..), binwidth = 2, 
+                                     color = "black", fill = "orange", alpha = 0.7) +
+                      geom_density(color = "red", size = 1) +
+                      labs(x = "Study Hours per Week", y = "Density", 
+                           title = "Distribution of Study Hours")</code></pre>
+                    </div>
+                    
+                    <h5>Key Features:</h5>
+                    <ul>
+                        <li><strong>geom_histogram()</strong>: Creates bins and counts observations in each</li>
+                        <li><strong>binwidth = 2</strong>: Sets width of each bin (adjust based on data)</li>
+                        <li><strong>color/fill</strong>: Control appearance of bars</li>
+                        <li><strong>geom_density()</strong>: Adds a smoothed density curve (optional)</li>
+                    </ul>
+                    
+                    <div class="interpretation">
+                        <p>Histograms help identify central tendency, spread, and shape of data. Our example might show most students study 8-12 hours weekly, with a roughly normal distribution and perhaps a few outliers studying significantly more.</p>
+                    </div>
+                </div>
+            </div>
+
+            <div id="Reg-DataVis-7" class="tab-content">
+                <h4 class="slide-title">Boxplot - Distribution by Group</h4>
+                
+                <div class="r-basics">
+                    <h5>Purpose:</h5>
+                    <ul>
+                        <li>Compare distributions across different groups</li>
+                        <li>Display key summary statistics in one visualization</li>
+                        <li>Identify medians, quartiles, and outliers</li>
+                        <li>Great for comparing outcomes between categorical groups</li>
+                    </ul>
+            
+                    <div>
+                    <h5>Code Example:</h5>
+                    <pre class="code-block"><code>
+                    # Create boxplot of PostScore by Gender
+                    ggplot(eval_data, aes(x = Gender, y = PostScore)) +
+                      geom_boxplot(fill = "lightgreen") +
+                      labs(x = "Gender", y = "Post-course Score", 
+                           title = "Post Score by Gender")
+                           
+                    # Add individual data points
+                    ggplot(eval_data, aes(x = Gender, y = PostScore)) +
+                      geom_boxplot(fill = "lightgreen", alpha = 0.5) +
+                      geom_jitter(width = 0.2, alpha = 0.6) +
+                      labs(x = "Gender", y = "Post-course Score", 
+                           title = "Post Score by Gender")</code></pre>
+                    </div>
+                    
+                    <h5>Understanding Boxplots:</h5>
+                    <ul>
+                        <li><strong>Middle line</strong>: Median (50th percentile)</li>
+                        <li><strong>Box</strong>: Interquartile range (IQR) - 25th to 75th percentile</li>
+                        <li><strong>Whiskers</strong>: Extend to ±1.5 × IQR from box edges</li>
+                        <li><strong>Points</strong>: Potential outliers beyond whiskers</li>
+                    </ul>
+                    
+                    <div class="interpretation">
+                        <p>Boxplots provide an at-a-glance comparison of distributions. In our example, overlapping boxes would suggest little difference between genders (consistent with our t-test finding no significant difference). We can also easily spot differences in median, spread, and potential outliers.</p>
+                    </div>
+                </div>
+            </div>
+
+            <div id="Reg-DataVis-8" class="tab-content">
+                <h4 class="slide-title">Scatter Plot - Relationships Between Variables</h4>
+                
+                <div class="r-basics">
+                    <h5>Purpose:</h5>
+                    <ul>
+                        <li>Visualize relationship between two continuous variables</li>
+                        <li>Show correlation and patterns</li>
+                        <li>Identify potential outliers</li>
+                        <li>Perfect complement to regression analysis</li>
+                    </ul>
+            
+                    <div>
+                    <h5>Code Example:</h5>
+                    <pre class="code-block"><code>
+                    # Basic scatter plot with regression line
+                    ggplot(eval_data, aes(x = StudyHours, y = PostScore)) +
+                      geom_point(color = "blue") +
+                      geom_smooth(method = "lm", se = TRUE, color = "red") +
+                      labs(x = "Study Hours per Week", y = "Post-course Score", 
+                           title = "Study Hours vs Post Score")
+                           
+                    # Enhanced version with additional features
+                    ggplot(eval_data, aes(x = StudyHours, y = PostScore, color = Gender)) +
+                      geom_point(size = 3, alpha = 0.7) +
+                      geom_smooth(method = "lm", se = TRUE) +
+                      labs(x = "Study Hours per Week", y = "Post-course Score", 
+                           title = "Relationship Between Study Time and Performance",
+                           subtitle = "With 95% confidence interval for regression line") +
+                      theme_minimal()</code></pre>
+                    </div>
+                    
+                    <h5>Key Features:</h5>
+                    <ul>
+                        <li><strong>geom_point()</strong>: Creates individual data points</li>
+                        <li><strong>geom_smooth(method = "lm")</strong>: Adds regression line</li>
+                        <li><strong>se = TRUE</strong>: Shows 95% confidence interval around line</li>
+                        <li><strong>color = Gender</strong>: Optional grouping by categorical variable</li>
+                    </ul>
+                    
+                    <div class="interpretation">
+                        <p>Our scatter plot would likely show a positive trend matching our regression results - students who study more tend to score higher. The slope of the red line visually represents the coefficient (approximately 2 points per study hour). The spread of points around the line relates to our R² value of 0.41 - there's a clear trend, but individual points vary from the prediction.</p>
+                    </div>
+                </div>
+            </div>
+
+            <div id="Reg-DataVis-9" class="tab-content">
+                <h4 class="slide-title">Customizing and Saving Plots</h4>
+                
+                <div class="r-basics">
+                    <h5>Enhancing Visualizations:</h5>
+                    <ul>
+                        <li>Add themes for consistent styling</li>
+                        <li>Customize colors, fonts, and labels</li>
+                        <li>Add annotations and reference lines</li>
+                        <li>Adjust scales and coordinate systems</li>
+                    </ul>
+            
+                    <div>
+                    <h5>Customization Examples:</h5>
+                    <pre class="code-block"><code>
+                    # Apply a theme
+                    ggplot(eval_data, aes(x = StudyHours, y = PostScore)) +
+                      geom_point() +
+                      geom_smooth(method = "lm") +
+                      theme_minimal() +
+                      labs(title = "Study Hours vs Post Score")
+                      
+                    # Custom colors and formatting
+                    ggplot(eval_data, aes(x = Course, y = Overall, fill = Course)) +
+                      geom_boxplot() +
+                      scale_fill_brewer(palette = "Pastel1") +
+                      theme_light() +
+                      theme(
+                        plot.title = element_text(size = 16, face = "bold"),
+                        axis.title = element_text(size = 12),
+                        legend.position = "none"
+                      ) +
+                      labs(title = "Overall Satisfaction by Course",
+                           x = "Course", y = "Overall Rating")</code></pre>
+                    </div>
+                    
+                    <h5>Saving Plots:</h5>
+                    <div>
+                    <pre class="code-block"><code>
+                    # Method 1: Save the last plot
+                    ggsave("satisfaction_boxplot.png", width = 8, height = 6, units = "in", dpi = 300)
+                    
+                    # Method 2: Save a specific plot
+                    p <- ggplot(eval_data, aes(x = StudyHours, y = PostScore)) +
+                      geom_point() +
+                      geom_smooth(method = "lm")
+                      
+                    ggsave("study_score_plot.pdf", plot = p, width = 8, height = 6)
+                    
+                    # Save in different formats
+                    ggsave("plot.png")  # PNG format
+                    ggsave("plot.pdf")  # PDF format (vector graphics, good for publications)
+                    ggsave("plot.jpg")  # JPEG format</code></pre>
+                    </div>
+                    
+                    <div class="note-box">
+                        <p>For more customization options, refer to the ggplot2 cheat sheet and documentation</p>
+                    </div>
+                </div>
+            </div>
+
+        </div>
+
+            <h3>Recap and Integration</h3>
+                <h5>What We've Learned:</h5>
+                <ul>
+                    <li><strong>Regression Analysis</strong>: Building predictive models to understand relationships</li>
+                    <li><strong>Data Visualization</strong>: Creating effective graphics to communicate findings</li>
+                </ul>
+                
+                <h5>Integration with Previous Modules:</h5>
+                <ul>
+                    <li>Descriptive statistics provide summary measures</li>
+                    <li>Inferential tests determine statistical significance</li>
+                    <li>Regression models quantify relationships</li>
+                    <li>Visualizations communicate findings effectively</li>
+                </ul>
+        
+                <h5>Key Visualization Types:</h5>
+                <ul>
+                    <li><strong>Bar charts</strong>: Categorical frequencies (e.g., Likert responses)</li>
+                    <li><strong>Histograms</strong>: Distribution of numeric variables (e.g., study hours)</li>
+                    <li><strong>Boxplots</strong>: Compare distributions by group (e.g., scores by gender)</li>
+                    <li><strong>Scatter plots</strong>: Relationships between variables (e.g., study vs. performance)</li>
+                </ul>
+                
+                <div class="best-practices">
+                    <h5>Best Practices:</h5>
+                    <ul>
+                        <li>Always pair statistical analysis with appropriate visualizations</li>
+                        <li>Choose plot types that match your data and research questions</li>
+                        <li>Keep visualizations clean and focused on key messages</li>
+                        <li>Use clear labeling and appropriate colors</li>
+                        <li>Consider your audience when designing visualizations</li>
+                    </ul>
+                </div>
+                
+                <div class="next-steps">
+                    <p><strong>Next Steps:</strong> Apply these techniques to your own research questions and datasets!</p>
+                </div>
+    </section>
+
+
+    <section>
+        <h2>Resources</h2>
+        <h3>Useful Links</h3>
+        <ul>
+            <li><a href="https://cran.r-project.org/" target="_blank">CRAN - The Comprehensive R Archive Network</a></li>
+            <li><a href="https://www.rstudio.com/resources/cheatsheets/" target="_blank">RStudio Cheatsheets</a></li>
+            <li><a href="https://r4ds.had.co.nz/" target="_blank">R for Data Science</a> (online book)</li>
+            <li><a href="https://dplyr.tidyverse.org/" target="_blank">dplyr documentation</a></li>
+            <li><a href="https://ggplot2.tidyverse.org/" target="_blank">ggplot2 documentation</a></li>
+            <li><a href="https://rcompanion.org/handbook/E_01.html" target="_blank">R Handbook: Introduction to Likert Data</a></li>
+        </ul>
+
+        <h3>R Packages Used in this Training</h3>
+        <ul>
+            <li><strong>tidyverse</strong>: Collection of packages for data science (includes dplyr, ggplot2, etc.)</li>
+            <li><strong>readxl</strong>: Reading Excel files into R</li>
+            <li><strong>dplyr</strong>: Data manipulation</li>
+            <li><strong>ggplot2</strong>: Data visualization</li>
+        </ul>
+    </section>
+
+    <footer>
+        <p>Training package created by <a href="https://www.linkedin.com/in/sandun-dassanayake/" target="_blank">Dr Sandun Dassanayake</a></p>
+        <p>&copy; 2025 - Social Science Data Analysis in R</p>
+    </footer>
+
+    <script>
+        function showTab(tabId, tabHeader) {
+            // Hide all tab contents
+            const tabContents = document.querySelectorAll('.tab-content');
+            tabContents.forEach(tab => {
+                tab.classList.remove('active');
+            });
+            
+            // Remove active class from all tab headers
+            const tabHeaders = document.querySelectorAll('.tab-header');
+            tabHeaders.forEach(header => {
+                header.classList.remove('active');
+            });
+            
+            // Show the selected tab content and make its header active
+            document.getElementById(tabId).classList.add('active');
+            tabHeader.classList.add('active');
+        }
+    </script>
+</body>
+</html>
